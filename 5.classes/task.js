@@ -7,25 +7,22 @@ class PrintEditionItem {
     this.type = null;
   }
 
-  fix() {
-    if (this.state > 100 || this.state <= 0) {
-      return;
+  set state(newState) {
+    if (newState > 100) {
+      this._state = 100;
+    } else if (newState <= 0) {
+      this._state = 0;
     } else {
-      this._state *= 1.5;
-      if (this._state > 100) {
-        return (this.state = 100);
-      } else {
-        return;
-      }
+      this._state = newState;
     }
-  }
-
-  set state(state) {
-    this._state = state;
   }
 
   get state() {
     return this._state;
+  }
+
+  fix() {
+    this.state *= 1.5;
   }
 }
 
