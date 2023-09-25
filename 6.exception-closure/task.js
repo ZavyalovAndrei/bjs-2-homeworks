@@ -23,11 +23,10 @@ class Triangle {
       sideB + sideC < sideA
     ) {
       throw new Error("Треугольник с такими сторонами не существует");
-    } else {
-      this.sideA = sideA;
-      this.sideB = sideB;
-      this.sideC = sideC;
     }
+    this.sideA = sideA;
+    this.sideB = sideB;
+    this.sideC = sideC;
   }
 
   get perimeter() {
@@ -45,24 +44,22 @@ class Triangle {
   }
 }
 
-class ErrorTriangle extends Triangle {
-  constructor() {
-    super();
-    this.errorMessage = "Ошибка! Треугольник не существует";
-  }
-
-  get area() {
-    return this.errorMessage;
-  }
-  get perimeter() {
-    return this.errorMessage;
-  }
-}
-
 function getTriangle(sideA, sideB, sideC) {
   try {
     return new Triangle(sideA, sideB, sideC);
   } catch (error) {
-    return new ErrorTriangle();
+    return new (class extends Triangle {
+      constructor() {
+        super();
+        this.errorMessage = "Ошибка! Треугольник не существует";
+      }
+
+      get area() {
+        return this.errorMessage;
+      }
+      get perimeter() {
+        return this.errorMessage;
+      }
+    })();
   }
 }
